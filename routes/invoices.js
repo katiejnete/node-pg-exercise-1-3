@@ -19,18 +19,8 @@ router.get("/:id", findInvoice, async (req, res, next) => {
       `SELECT id, amt, paid, add_date, paid_date, code, name, description FROM invoices JOIN companies ON invoices.comp_code = companies.code WHERE id = $1`,
       [req.params.id]
     );
-    const { id, amt, paid, add_date, paid_date, code, name, description } =
-      result.rows[0];
-    return res.json({
-      invoice: {
-        id,
-        amt,
-        paid,
-        add_date,
-        paid_date,
-        company: { code, name, description },
-      },
-    });
+    const invoice = result.rows[0];
+    return res.json({invoice});
   } catch (err) {
     return next(err);
   }
